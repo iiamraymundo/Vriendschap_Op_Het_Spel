@@ -1,0 +1,15 @@
+{
+  "name": "vriendschap-op-het-spel",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Digitale versie van het bordspel 'Vriendschap op het spel' — een hot-seat party game voor 2 tot 4 spelers. Gemaakt in het kader van het vak UX Design.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.4.10"
+  }
+}
