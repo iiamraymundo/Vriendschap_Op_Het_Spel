@@ -943,6 +943,55 @@ input {
   color: var(--text);
 }
 
+/* ---------- Event modal ---------- */
+
+.event-modal {
+  text-align: center;
+  max-width: 460px;
+  padding: 32px 28px;
+}
+
+.event-modal__emoji {
+  font-size: 56px;
+  line-height: 1;
+  margin-bottom: 8px;
+  animation: bounce 500ms ease-out;
+}
+
+.event-modal__title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.event-modal__panel {
+  text-align: left;
+  margin-top: 4px;
+}
+
+.event-modal__move {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 8px !important;
+}
+
+.event-modal__message {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0 !important;
+  line-height: 1.5;
+}
+
+.event-modal .menu-modal__actions {
+  flex-direction: row;
+  justify-content: center;
+}
+
 /* ---------- Helpers ---------- */
 .center-flex {
   flex: 1;

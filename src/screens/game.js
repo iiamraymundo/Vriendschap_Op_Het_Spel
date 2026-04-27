@@ -114,6 +114,10 @@ function renderMessagePane(cur) {
     ]);
   }
 
+  if (state.modal === 'event') {
+    return el('div', {}, []);
+  }
+
   return renderEventResult(cur);
 }
 
@@ -287,6 +291,10 @@ function drawCard() {
         moveText: `${cur.name} gaat ${value} posities vooruit.`,
       };
     }
+
+    if (!state.winner) {
+      state.modal = 'event';
+    }
   } else {
     state.turn.event = null;
   }
@@ -305,7 +313,7 @@ function resolveCollision(self, targetPos, fallback = null) {
   return p;
 }
 
-function applySkipChoice(didSkipNext) {
+export function applySkipChoice(didSkipNext) {
   if (didSkipNext) {
     const nextIdx = (state.currentIndex + 1) % state.players.length;
     state.players[nextIdx].skipTurns = (state.players[nextIdx].skipTurns || 0) + 1;
@@ -357,7 +365,7 @@ function pickTarget(targetId) {
   endTurn();
 }
 
-function endTurn() {
+export function endTurn() {
   state.turn.drawn = null;
   state.turn.event = null;
   state.turn.jokerPending = false;

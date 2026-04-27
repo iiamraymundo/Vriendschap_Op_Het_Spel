@@ -1,5 +1,6 @@
 import { el } from '../utils.js';
 import { state, render } from '../state.js';
+import { endTurn, applySkipChoice } from './game.js';
 
 /**
  * Globale modal renderer. Op basis van `state.modal` toont deze het juiste
@@ -10,6 +11,10 @@ export function renderModalIfAny() {
 
   if (state.modal === 'extra-info') {
     return renderExtraInfoModal();
+  }
+
+  if (state.modal === 'event') {
+    return renderEventModal();
   }
 
   return null;
@@ -84,6 +89,84 @@ function renderExtraInfoModal() {
               ['Begrepen']
             ),
           ]
+        ),
+      ]),
+    ]
+  );
+}
+
+/* ---------- Event modal (bord-events tijdens spel) ---------- */
+
+const EVENT_VISUALS = {
+  safespot: { emoji: '🍀', title: 'Safespot' },
+  forward: { emoji: '⚡', title: 'Geluksvak' },
+  backward: { emoji: '🐢', title: 'Pech' },
+  skip: { emoji: '⚠️', title: 'Beurt overslaan?' },
+  blocked: { emoji: '🚫', title: 'Geblokkeerd' },
+};
+
+function renderEventModal() {
+  const ev = state.turn.event;
+  if (!ev) return null;
+
+  const visual = EVENT_VISUALS[ev.kind] || { emoji: '✨', title: 'Event' };
+  const isSkip = ev.kind === 'skip';
+
+  const actions = isSkip
+    ? [
+        el(
+          'button',
+          {
+            class: 'btn btn--primary',
+            onclick: () => {
+              state.modal = null;
+              applySkipChoice(true);
+            },
+          },
+          ['Ja, beurt overslaan']
+        ),
+        el(
+          'button',
+          {
+            class: 'btn btn--ghost',
+            onclick: () => {
+              state.modal = null;
+              applySkipChoice(false);
+            },
+          },
+          ['Nee, bedankt']
+        ),
+      ]
+    : [
+        el(
+          'button',
+          {
+            class: 'btn btn--primary',
+            onclick: () => {
+              state.modal = null;
+              endTurn();
+            },
+          },
+          ['Volgende speler']
+        ),
+      ];
+
+  return el(
+    'div',
+    { class: 'menu-overlay' },
+    [
+      el('div', { class: 'menu-modal event-modal' }, [
+        el('div', { class: 'event-modal__emoji' }, [visual.emoji]),
+        el('h3', { class: 'event-modal__title' }, [visual.title]),
+        el('div', { class: 'rules-panel event-modal__panel' }, [
+          ev.moveText &&
+            el('p', { class: 'event-modal__move' }, [ev.moveText]),
+          el('p', { class: 'event-modal__message' }, [ev.message]),
+        ]),
+        el(
+          'div',
+          { class: 'menu-modal__actions', style: { marginTop: '20px' } },
+          actions
         ),
       ]),
     ]
