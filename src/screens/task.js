@@ -2,33 +2,34 @@ import { el, backIcon } from '../utils.js';
 import { state, goto, render } from '../state.js';
 import { TASKS, DIFFICULTY_GROUP_LABELS } from '../data/tasks.js';
 
+const DIFFICULTY_LABELS = {
+  basis: 'Basis',
+  normaal: 'Normaal',
+  extreem: 'Extreem',
+};
+
 export function renderTask() {
   const cfg = state.config;
+  const level = cfg.difficulty;
+  const tasksForLevel = TASKS[level] || [];
   const selectedId = cfg.loserTask;
   const customValue = cfg.customTask || '';
 
-  const groups = Object.entries(TASKS).map(([level, tasks]) => {
-    const list = tasks.map((text, idx) => {
-      const id = `${level}-${idx}`;
-      const isSelected = selectedId === id;
-      return el(
-        'label',
-        {
-          class: `task-option ${isSelected ? 'is-selected' : ''}`,
-          onclick: () => {
-            cfg.loserTask = id;
-            cfg.customTask = '';
-            render();
-          },
+  const list = tasksForLevel.map((text, idx) => {
+    const id = `${level}-${idx}`;
+    const isSelected = selectedId === id;
+    return el(
+      'label',
+      {
+        class: `task-option ${isSelected ? 'is-selected' : ''}`,
+        onclick: () => {
+          cfg.loserTask = id;
+          cfg.customTask = '';
+          render();
         },
-        [el('span', { class: 'task-option__radio' }), el('span', {}, [text])]
-      );
-    });
-
-    return el('div', { class: `task-group task-group--${level}` }, [
-      el('div', { class: 'task-group__title' }, [DIFFICULTY_GROUP_LABELS[level]]),
-      el('div', { class: 'task-list' }, list),
-    ]);
+      },
+      [el('span', { class: 'task-option__radio' }), el('span', {}, [text])]
+    );
   });
 
   return el('section', { class: 'screen screen--wide' }, [
@@ -42,8 +43,24 @@ export function renderTask() {
       [backIcon()]
     ),
     el('h1', { class: 'title' }, ['Wat moet de verliezer doen?']),
+    el('p', { class: 'subtitle', style: { marginTop: '-12px' } }, [
+      'Moeilijkheid: ',
+      el(
+        'span',
+        {
+          style: {
+            fontWeight: '700',
+            color: level === 'extreem' ? 'var(--danger)' : 'var(--primary)',
+          },
+        },
+        [DIFFICULTY_LABELS[level] + (level === 'extreem' ? ' (18+)' : '')]
+      ),
+    ]),
     el('div', { class: 'task-groups' }, [
-      ...groups,
+      el('div', { class: `task-group task-group--${level}` }, [
+        el('div', { class: 'task-group__title' }, [DIFFICULTY_GROUP_LABELS[level]]),
+        el('div', { class: 'task-list' }, list),
+      ]),
       el('div', { class: 'task-custom' }, [
         el(
           'div',

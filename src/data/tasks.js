@@ -15,9 +15,13 @@ export const TASKS = {
     'Laat een andere speler een grappige bijnaam voor je kiezen die je de rest van het spel moet gebruiken.',
   ],
   extreem: [
-    'Laat de andere spelers een genante foto van jou op je sociale media posten.',
-    'Bel een willekeurig contact en zing een liedje voor hen.',
-    'Eet een extreem vreemde combinatie van eten.',
+    'Geef elke andere speler 10 euro.',
+    'Doe 5 minuten een handstand tegen de muur.',
+    'Eet een hele citroen op (met schil).',
+    'Doe 30 pull-ups.',
+    'Loop 20 minuten zonder te stoppen.',
+    'Maak een OnlyFans-account aan.',
+    'Krijg 5 (zachte) klappen van de andere spelers.',
     'Laat een speler een gek kapsel maken met gel of haarlak dat je een uur moet laten zitten.',
   ],
 };

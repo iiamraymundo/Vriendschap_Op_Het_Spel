@@ -41,6 +41,7 @@ export function createInitialState() {
     losers: [],
     finalTask: null,
     menuOpen: false,
+    modal: null,
   };
 }
 
@@ -49,6 +50,7 @@ export const state = createInitialState();
 export function goto(screen) {
   state.screen = screen;
   state.menuOpen = false;
+  state.modal = null;
   render();
 }
 

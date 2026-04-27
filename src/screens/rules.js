@@ -1,5 +1,5 @@
 import { el, backIcon } from '../utils.js';
-import { goto } from '../state.js';
+import { state, goto, render } from '../state.js';
 
 export function renderRules() {
   return el('section', { class: 'screen' }, [
@@ -16,7 +16,10 @@ export function renderRules() {
       'button',
       {
         class: 'btn btn--sm btn--ghost extra-info-btn',
-        onclick: () => alert(extraInfo),
+        onclick: () => {
+          state.modal = 'extra-info';
+          render();
+        },
       },
       ['Extra speluitleg']
     ),
@@ -44,10 +47,3 @@ export function renderRules() {
     ]),
   ]);
 }
-
-const extraInfo = `Extra speluitleg:
-
-• Moeilijkheidsgraad "Extreem" is bedoeld voor spelers van 18 jaar en ouder.
-• De joker is een speciale kaart met 3 keuzes. Je kiest 1 keuze en moet deze eerst afwerken voor het spel verdergaat.
-• De winnaar doet nooit zelf de verliezersopdracht.
-• Alleen spelers die de laagste positie delen (onder de niet-winnaars) moeten de opdracht uitvoeren.`;

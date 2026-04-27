@@ -62,7 +62,11 @@ export function renderConfig() {
               {
                 class: `option-btn ${cfg.difficulty === d.id ? 'is-active' : ''}`,
                 onclick: () => {
-                  cfg.difficulty = d.id;
+                  if (cfg.difficulty !== d.id) {
+                    cfg.difficulty = d.id;
+                    cfg.loserTask = null;
+                    cfg.customTask = '';
+                  }
                   render();
                 },
               },

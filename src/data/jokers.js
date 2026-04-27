@@ -27,7 +27,8 @@ export const JOKER_WARNING =
 function selfMove(delta) {
   return (state, { currentIndex }) => {
     const p = state.players[currentIndex];
-    p.position = clamp(p.position + delta, 0, state.finish);
+    const finish = state.config.finish;
+    p.position = clamp(p.position + delta, 0, finish);
     return {
       description: `${p.name} gaat ${delta} posities vooruit.`,
     };
@@ -35,9 +36,10 @@ function selfMove(delta) {
 }
 
 function pushOther(delta) {
-  return (state, { currentIndex, targetIndex }) => {
+  return (state, { targetIndex }) => {
     const t = state.players[targetIndex];
-    t.position = clamp(t.position + delta, 0, state.finish);
+    const finish = state.config.finish;
+    t.position = clamp(t.position + delta, 0, finish);
     const verb = delta < 0 ? 'teruggeschopt' : 'verplaatst';
     return {
       description: `${t.name} is ${Math.abs(delta)} posities ${verb}.`,

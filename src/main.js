@@ -9,6 +9,7 @@ import { renderTask } from './screens/task.js';
 import { renderSummary } from './screens/summary.js';
 import { renderGame, renderMenuOverlay } from './screens/game.js';
 import { renderEnd } from './screens/end.js';
+import { renderModalIfAny } from './screens/modal.js';
 
 const root = document.getElementById('app');
 
@@ -30,6 +31,8 @@ function render() {
   if (state.menuOpen && state.screen === 'game') {
     root.appendChild(renderMenuOverlay());
   }
+  const modal = renderModalIfAny();
+  if (modal) root.appendChild(modal);
 }
 
 registerRenderer(render);
