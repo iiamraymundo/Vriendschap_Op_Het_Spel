@@ -69,9 +69,8 @@ VriendschapOpHetSpel/
    - `%10 = 7` → **2 posities terug**
    - `%10 = 8` → **optie om volgende speler 1 beurt te laten overslaan**
    - `%10 = 9` → **geblokkeerd**: je blijft op je vorige positie
-4. **Botsingen**: twee spelers mogen nooit op dezelfde positie staan. Je schuift door naar de eerstvolgende vrije positie.
-5. **Joker**: 3 keuzes, sterker bij hogere moeilijkheid (ander terugschoppen, beurten skippen, of zelf vooruit).
-6. **Einde**: eerste speler op de finish wint. **Alle** spelers die op dat moment de laagste positie delen (winnaar uitgesloten) moeten de gekozen opdracht uitvoeren.
+4. **Joker**: 3 keuzes, sterker bij hogere moeilijkheid (ander terugschoppen, beurten skippen, of zelf vooruit).
+5. **Einde**: eerste speler op de finish wint. **Alle** spelers die op dat moment de laagste positie delen (winnaar uitgesloten) moeten de gekozen opdracht uitvoeren.
 
 ## Aanpassen
 

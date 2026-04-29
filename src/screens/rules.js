@@ -32,9 +32,6 @@ export function renderRules() {
         'Elke positie op het speelveld kan een opdracht, een conditie of niets bevatten. De speler moet op voorhand weten wat een positie bevat. Wanneer een speler op een positie landt, moet hij de actie uitvoeren die bij die positie hoort.',
       ]),
       el('p', {}, [
-        'Twee spelers mogen nooit op dezelfde positie staan. Als een speler op een positie terechtkomt waar al een andere speler staat, moet hij doorgaan naar de volgende vrije positie.',
-      ]),
-      el('p', {}, [
         'De speler die als eerste de finish bereikt, wint het spel. Alle spelers die op dat moment de laagste positie delen, moeten een gekozen opdracht uitvoeren. ',
       ]),
     ]),

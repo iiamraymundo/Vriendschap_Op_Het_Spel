@@ -69,10 +69,6 @@ function renderExtraInfoModal() {
             ' (geen effect), bonusvelden (extra vooruit of terug) of vakken die je dwingen te blijven staan.',
           ]),
           el('p', {}, [
-            el('strong', {}, ['Geen botsingen. ']),
-            'Twee spelers mogen nooit op dezelfde positie staan. Als je terechtkomt op een bezet vak, schuif je door naar de eerstvolgende vrije plek.',
-          ]),
-          el('p', {}, [
             el('strong', {}, ['Einde van het spel. ']),
             'De eerste speler op de eindpositie wint. ',
             el('em', {}, ['Alle']),

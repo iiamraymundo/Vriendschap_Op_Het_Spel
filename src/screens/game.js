@@ -252,8 +252,7 @@ function drawCard() {
 
   const prev = cur.position;
   const tentative = Math.min(state.config.finish, prev + value);
-  const resolved = resolveCollision(cur, tentative);
-  cur.position = resolved;
+  cur.position = tentative;
 
   if (cur.position >= state.config.finish) {
     declareWinner(cur);
@@ -267,15 +266,14 @@ function drawCard() {
       cur.position = prev;
       state.turn.event = {
         ...ev,
-        moveText: `${cur.name} wilde naar positie ${resolved}...`,
+        moveText: `${cur.name} wilde naar positie ${tentative}...`,
       };
     } else if (ev.bonusMove) {
       const afterBonus = Math.max(
         0,
         Math.min(state.config.finish, cur.position + ev.bonusMove)
       );
-      const resolved2 = resolveCollision(cur, afterBonus, cur.position);
-      cur.position = resolved2;
+      cur.position = afterBonus;
       state.turn.event = {
         ...ev,
         moveText: `${cur.name} gaat ${value} posities vooruit. ${
@@ -302,16 +300,6 @@ function drawCard() {
   render();
 }
 
-/** Geen twee spelers op dezelfde positie: doorschuiven tot eerste vrije plek. */
-function resolveCollision(self, targetPos, fallback = null) {
-  const taken = new Set(
-    state.players.filter((p) => p.id !== self.id).map((p) => p.position)
-  );
-  let p = targetPos;
-  while (taken.has(p) && p < state.config.finish) p++;
-  if (p > state.config.finish) return fallback != null ? fallback : state.config.finish;
-  return p;
-}
 
 export function applySkipChoice(didSkipNext) {
   if (didSkipNext) {
