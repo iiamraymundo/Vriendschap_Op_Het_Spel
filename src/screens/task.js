@@ -77,16 +77,32 @@ export function renderTask() {
             cfg.customTask = e.target.value;
             if (e.target.value.trim().length > 0) {
               cfg.loserTask = 'custom';
-              render();
+            } else {
+              cfg.loserTask = null;
             }
+            render();
           },
         }),
       ]),
     ]),
-    el('div', { class: 'btn-row' }, [
+    el('div', { class: 'btn-row btn-row--task-actions' }, [
       el(
         'button',
         {
+          type: 'button',
+          class: 'btn btn--ghost btn--sm',
+          onclick: () => {
+            cfg.loserTask = null;
+            cfg.customTask = '';
+            render();
+          },
+        },
+        ['Selectie wissen']
+      ),
+      el(
+        'button',
+        {
+          type: 'button',
           class: 'btn btn--primary',
           onclick: () => {
             const hasCustom = cfg.loserTask === 'custom' && cfg.customTask.trim().length > 0;

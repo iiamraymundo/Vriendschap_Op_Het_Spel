@@ -32,11 +32,23 @@ export function renderGame() {
 
 /* ---------- Deck ---------- */
 
+function bumpDeckHint() {
+  if ((state.deckHintRemaining ?? 0) > 0) {
+    state.deckHintRemaining -= 1;
+  }
+}
+
 function renderDeck() {
   const isDisabled =
     state.turn.drawn !== null || state.turn.jokerPending || state.turn.awaitingTargetFor !== null;
 
-  return el(
+  const showDeckHint =
+    state.turn.drawn === null &&
+    !state.turn.jokerPending &&
+    state.turn.awaitingTargetFor === null &&
+    (state.deckHintRemaining ?? 0) > 0;
+
+  const deckEl = el(
     'div',
     {
       class: `card card--deck ${isDisabled ? 'is-disabled' : ''}`,
@@ -50,6 +62,18 @@ function renderDeck() {
       el('span', { style: { fontSize: '14px', fontWeight: '600' } }, ['& joker']),
     ]
   );
+
+  if (!showDeckHint) return deckEl;
+
+  return el('div', { class: 'card-deck-wrap card-deck-wrap--hint' }, [
+    deckEl,
+    el('div', {
+      class: 'card-deck-hint-arrow',
+      'aria-hidden': 'true',
+      title: 'Klik op de stapel',
+      html: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 56" class="card-deck-hint-svg" aria-hidden="true"><path d="M24 52 V26" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round"/><path d="M8 26 L24 10 L40 26" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    }),
+  ]);
 }
 
 function renderDrawnSlot() {
@@ -90,6 +114,7 @@ function renderMessagePane(cur) {
           ['Resultaat']
         ),
       ]),
+      el('p', { class: 'game__keyboard-tip' }, ['Tip: je mag ook op Spatie drukken.']),
     ]);
   }
 
@@ -144,12 +169,12 @@ function renderEventResult(cur) {
       el(
         'button',
         { class: 'btn btn--primary btn--sm', onclick: () => applySkipChoice(true) },
-        ['Ja']
+        ['Ja, volgende slaat een beurt over']
       ),
       el(
         'button',
         { class: 'btn btn--sm', onclick: () => applySkipChoice(false) },
-        ['Nee']
+        ['Nee, niet overslaan']
       )
     );
   } else {
@@ -162,7 +187,13 @@ function renderEventResult(cur) {
     );
   }
 
-  return el('div', {}, [...lines, el('div', { class: 'game__actions' }, actions)]);
+  const actionRow = el('div', { class: 'game__actions' }, actions);
+  const keyboardTip =
+    !ev || ev.kind !== 'skip'
+      ? el('p', { class: 'game__keyboard-tip' }, ['Tip: je mag ook op Spatie drukken.'])
+      : null;
+
+  return el('div', {}, [...lines, actionRow, keyboardTip]);
 }
 
 /* ---------- Joker ---------- */
@@ -242,6 +273,7 @@ function drawCard() {
     state.turn.drawn = 'J';
     state.turn.jokerPending = true;
     state.turn.lastMessage = null;
+    bumpDeckHint();
     render();
     return;
   }
@@ -256,6 +288,7 @@ function drawCard() {
 
   if (cur.position >= state.config.finish) {
     declareWinner(cur);
+    bumpDeckHint();
     render();
     return;
   }
@@ -297,6 +330,7 @@ function drawCard() {
     state.turn.event = null;
   }
 
+  bumpDeckHint();
   render();
 }
 
@@ -351,6 +385,34 @@ function pickTarget(targetId) {
   }
 
   endTurn();
+}
+
+export function advanceTurnFromKeyboard() {
+  if (state.screen !== 'game') return false;
+  if (state.menuOpen) return false;
+  if (state.turn.jokerPending || state.turn.awaitingTargetFor !== null) return false;
+
+  if (state.winner) {
+    if (state.modal) return false;
+    goto('end');
+    return true;
+  }
+
+  if (state.modal === 'event') {
+    const ev = state.turn.event;
+    if (ev?.kind === 'skip') return false;
+    state.modal = null;
+    endTurn();
+    return true;
+  }
+
+  if (state.modal) return false;
+
+  if (state.turn.drawn === null) return false;
+  if (state.turn.event?.kind === 'skip') return false;
+
+  endTurn();
+  return true;
 }
 
 export function endTurn() {

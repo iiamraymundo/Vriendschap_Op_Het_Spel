@@ -42,6 +42,7 @@ export function createInitialState() {
     finalTask: null,
     menuOpen: false,
     modal: null,
+    deckHintRemaining: 2,
   };
 }
 

@@ -70,5 +70,6 @@ function startGame() {
   state.winner = null;
   state.losers = [];
   state.finalTask = null;
+  state.deckHintRemaining = 2;
   goto('game');
 }

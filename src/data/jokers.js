@@ -13,7 +13,11 @@ export const JOKERS = {
     { id: 'self-forward', label: 'Jij gaat 8 posities vooruit.', apply: selfMove(8) },
   ],
   extreem: [
-    { id: 'push-forward', label: 'Stuur een medespeler helemaal terug naar positie 0.', apply: resetOther() },
+    {
+      id: 'push-forward',
+      label: 'Laat een medespeler 10 posities teruggaan (nooit onder positie 1).',
+      apply: pushOtherBackTenFloorOne(),
+    },
     { id: 'skip-other', label: 'Laat een medespeler 3 beurten overslaan.', apply: skipOther(3) },
     { id: 'self-forward', label: 'Jij gaat 12 posities vooruit.', apply: selfMove(12) },
   ],
@@ -47,12 +51,18 @@ function pushOther(delta) {
   };
 }
 
-function resetOther() {
+function pushOtherBackTenFloorOne() {
   return (state, { targetIndex }) => {
     const t = state.players[targetIndex];
-    t.position = 0;
+    const finish = state.config.finish;
+    const before = t.position;
+    t.position = Math.min(Math.max(1, before - 10), finish);
+    const back = before - t.position;
     return {
-      description: `${t.name} is terug naar start gestuurd.`,
+      description:
+        back > 0
+          ? `${t.name} gaat ${back} ${back === 1 ? 'positie' : 'posities'} terug (minimum positie 1).`
+          : `${t.name} blijft op positie ${t.position}.`,
     };
   };
 }

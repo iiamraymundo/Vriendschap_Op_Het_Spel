@@ -251,6 +251,12 @@ input {
   padding-top: 32px;
 }
 
+.btn-row--task-actions {
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
 /* ---------- Segmented / option buttons ---------- */
 .options {
   display: flex;
@@ -604,6 +610,61 @@ input {
   gap: 10px;
   margin-top: 14px;
   flex-wrap: wrap;
+}
+
+.game__keyboard-tip {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.event-modal__keyboard-tip {
+  text-align: center;
+  margin-top: 12px;
+}
+
+.event-modal__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.card-deck-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  align-self: center;
+}
+
+.card-deck-wrap--hint {
+  padding-bottom: 8px;
+}
+
+.card-deck-hint-arrow {
+  color: var(--primary);
+  line-height: 0;
+  animation: deckHintPulse 1.15s ease-in-out infinite;
+  filter: drop-shadow(0 3px 6px rgb(0 0 0 / 14%));
+}
+
+.card-deck-hint-arrow .card-deck-hint-svg {
+  display: block;
+  width: 58px;
+  height: 68px;
+}
+
+@keyframes deckHintPulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: translateY(8px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ---------- Cards ---------- */

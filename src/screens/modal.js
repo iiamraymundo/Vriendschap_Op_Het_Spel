@@ -119,7 +119,7 @@ function renderEventModal() {
               applySkipChoice(true);
             },
           },
-          ['Ja, beurt overslaan']
+          ['Ja, volgende slaat een beurt over']
         ),
         el(
           'button',
@@ -130,7 +130,7 @@ function renderEventModal() {
               applySkipChoice(false);
             },
           },
-          ['Nee, bedankt']
+          ['Nee, niet overslaan']
         ),
       ]
     : [
@@ -159,11 +159,18 @@ function renderEventModal() {
             el('p', { class: 'event-modal__move' }, [ev.moveText]),
           el('p', { class: 'event-modal__message' }, [ev.message]),
         ]),
-        el(
-          'div',
-          { class: 'menu-modal__actions', style: { marginTop: '20px' } },
-          actions
-        ),
+        el('div', { class: 'event-modal__footer' }, [
+          el(
+            'div',
+            { class: 'menu-modal__actions', style: { marginTop: '20px' } },
+            actions
+          ),
+          !isSkip
+            ? el('p', { class: 'game__keyboard-tip event-modal__keyboard-tip' }, [
+                'Tip: je mag ook op Spatie drukken.',
+              ])
+            : null,
+        ]),
       ]),
     ]
   );

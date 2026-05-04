@@ -7,7 +7,7 @@ import { renderConfig } from './screens/config.js';
 import { renderPlayers } from './screens/players.js';
 import { renderTask } from './screens/task.js';
 import { renderSummary } from './screens/summary.js';
-import { renderGame, renderMenuOverlay } from './screens/game.js';
+import { renderGame, renderMenuOverlay, advanceTurnFromKeyboard } from './screens/game.js';
 import { renderEnd } from './screens/end.js';
 import { renderModalIfAny } from './screens/modal.js';
 
@@ -37,3 +37,10 @@ function render() {
 
 registerRenderer(render);
 render();
+
+document.addEventListener('keydown', (e) => {
+  if (e.code !== 'Space') return;
+  if (advanceTurnFromKeyboard()) {
+    e.preventDefault();
+  }
+});
